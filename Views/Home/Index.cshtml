@@ -2,7 +2,95 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-6">
+                <video id="video" class="card-img"></video>
+                <button id="capture-btn">Capture Image</button>
+            </div>
+            <div class="col-6">
+                <div class="row">
+                    <div class="col">
+                        <canvas id="canvas" class="card-img"></canvas>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="rangeInput">Blur</label>
+                            <input type="range" class="form-range" id="blurInput" min="1" max="100" value="0">
+                            <label for="rangeInput">Brightness</label>
+                            <input type="range" class="form-range" id="brightnessInput" min="1" max="100" value="0">
+                            <label for="rangeInput">Grayscale</label>
+                            <input type="range" class="form-range" id="grayscaleInput" min="1" max="100" value="0">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<style>
+    #canvas{
+        border-block:dashed;
+        border-color:black;
+        height:300px;
+        width:600px; 
+    }
+</style>
+@section scripts{
+
+
+    <script>
+        $(function () {
+            var video = document.querySelector('#video');
+            var canvas = document.querySelector('#canvas');
+            var captureBtn = document.querySelector('#capture-btn');
+
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function (stream) {
+                    video.srcObject = stream;
+                    video.play();
+                })
+                .catch(function (err) {
+                    console.log(err);
+                });
+
+            captureBtn.addEventListener('click', function () {
+                var context = canvas.getContext('2d');
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                var imageDataURL = canvas.toDataURL('image/png');
+                console.log(imageDataURL); // You can send this data to server
+                var img = new Image();
+                img.src = imageDataURL;
+                img.onload = function () {
+                    context.drawImage(img, 0, 0, canvas.width, canvas.height);
+                }
+            });
+        });
+
+        var blurInput = document.getElementById('blurInput');
+        var brightnessInput = document.getElementById('brightnessInput');
+        var grayscaleInput = document.getElementById('grayscaleInput');
+        var targetDiv = document.querySelector('canvas');
+
+        blurInput.addEventListener('input', function () {
+            var value = blurInput.value;
+            targetDiv.style.filter = "contrast(" + (value) + ")";
+            console.log(targetDiv.style.borderRadius);
+        });
+
+        brightnessInput.addEventListener('input', function () {
+            var value = brightnessInput.value;
+            targetDiv.style.filter = "invert(" + (value) + ")";
+            console.log(targetDiv.style.borderRadius);
+        });
+        grayscaleInput.addEventListener('input', function () {
+            var value = grayscaleInput.value;
+            targetDiv.style.filter = "grayscale(" + (value) + ")";
+            console.log(targetDiv.style.borderRadius);
+        });
+    </script>
+}
