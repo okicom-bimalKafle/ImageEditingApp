@@ -18,10 +18,10 @@
                 <div class="row">
                     <div class="col">
                         <div class="form-group">
-                            <label for="rangeInput">Blur</label>
-                            <input type="range" class="form-range" id="blurInput" min="1" max="100" value="0">
-                            <label for="rangeInput">Brightness</label>
-                            <input type="range" class="form-range" id="brightnessInput" min="1" max="100" value="0">
+                            <label for="rangeInput">Contrast</label>
+                            <input type="range" class="form-range" id="contrastInput" min="1" max="100" value="0">
+                            <label for="rangeInput">Invert</label>
+                            <input type="range" class="form-range" id="invertInput" min="1" max="100" value="0">
                             <label for="rangeInput">Grayscale</label>
                             <input type="range" class="form-range" id="grayscaleInput" min="1" max="100" value="0">
                         </div>
@@ -71,26 +71,26 @@
             });
         });
 
-        var blurInput = document.getElementById('blurInput');
-        var brightnessInput = document.getElementById('brightnessInput');
+        var contrastInput = document.getElementById('contrastInput');
+        var invertInput = document.getElementById('invertInput');
         var grayscaleInput = document.getElementById('grayscaleInput');
         var targetDiv = document.querySelector('canvas');
 
-        blurInput.addEventListener('input', function () {
-            var value = blurInput.value;
+        contrastInput.addEventListener('input', function () {
+            var value = contrastInput.value;
             targetDiv.style.filter = "contrast(" + (value) + ")";
-            console.log(targetDiv.style.borderRadius);
+           
         });
 
-        brightnessInput.addEventListener('input', function () {
-            var value = brightnessInput.value;
+        invertInput.addEventListener('input', function () {
+            var value = invertInput.value;
             targetDiv.style.filter = "invert(" + (value) + ")";
-            console.log(targetDiv.style.borderRadius);
+           
         });
         grayscaleInput.addEventListener('input', function () {
             var value = grayscaleInput.value;
             targetDiv.style.filter = "grayscale(" + (value) + ")";
-            console.log(targetDiv.style.borderRadius);
+            
         });
     </script>
 }
